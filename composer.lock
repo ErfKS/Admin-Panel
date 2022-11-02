@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c38106c3a490afb6dc8ee80e36ecd770",
+    "content-hash": "c3a8a1ba5de844f6ee5865663b5fde39",
     "packages": [
         {
             "name": "brick/math",
@@ -435,11 +435,11 @@
         },
         {
             "name": "erfan_kateb_saber/admin_panel",
-            "version": "dev-develop",
+            "version": "1.0.0",
             "dist": {
                 "type": "path",
                 "url": "packages/erfan_kateb_saber/admin_panel",
-                "reference": "d9b12c9a7dd61c7e6f74145ad03c7f7e0c81d4dd"
+                "reference": "12eadadabbc300644d50285c3ef13c23ca193ed6"
             },
             "type": "library",
             "extra": {
@@ -5538,16 +5538,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.14.5",
+            "version": "2.14.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a63e5e8f26ebbebf8ed3c5c691637325512eb0dc"
+                "reference": "f7948baaa0330277c729714910336383286305da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a63e5e8f26ebbebf8ed3c5c691637325512eb0dc",
-                "reference": "a63e5e8f26ebbebf8ed3c5c691637325512eb0dc",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/f7948baaa0330277c729714910336383286305da",
+                "reference": "f7948baaa0330277c729714910336383286305da",
                 "shasum": ""
             },
             "require": {
@@ -5597,7 +5597,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.14.5"
+                "source": "https://github.com/filp/whoops/tree/2.14.6"
             },
             "funding": [
                 {
@@ -5605,7 +5605,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-07T12:00:00+00:00"
+            "time": "2022-11-02T16:23:29+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -7847,9 +7847,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "erfan_kateb_saber/admin_panel": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
