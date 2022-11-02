@@ -52,7 +52,7 @@ class AdminPanelAuthProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../../public' => public_path('vendor/admin_panel'),
-        ], 'public');
+        ], 'laravel-assets');
     }
 
     public function register()

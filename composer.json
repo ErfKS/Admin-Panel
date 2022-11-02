@@ -23,11 +23,5 @@
                 "erfan_kateb_saber\\admin_panel\\app\\Providers\\AdminPanelAuthProvider"
             ]
         }
-    },
-
-    "scripts": {
-        "post-install-cmd": [
-            "@php artisan vendor:publish --tag=public--force"
-        ]
     }
 }
