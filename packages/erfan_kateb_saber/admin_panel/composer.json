@@ -1,0 +1,32 @@
+{
+    "name": "erfan_kateb_saber/admin_panel",
+    "description": "Manage routes and database",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "erfan_kateb_saber\\admin_panel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Erfan Kateb Saber",
+            "email": "kateberfan2@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "erfan_kateb_saber\\admin_panel\\app\\Providers\\AdminPanelAuthProvider"
+            ]
+        }
+    },
+
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --tag=public--force"
+        ]
+    }
+}

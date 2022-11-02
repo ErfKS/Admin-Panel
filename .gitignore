@@ -3,6 +3,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/private/admin_panel
 /vendor
 .env
 .env.backup
