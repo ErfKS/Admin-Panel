@@ -3,7 +3,6 @@
     "description": "Manage routes and database",
     "license": "MIT",
     "type": "package",
-    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "erfan_kateb_saber\\admin_panel\\": "src/"
