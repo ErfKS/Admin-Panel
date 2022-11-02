@@ -19,7 +19,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "erfan_kateb_saber/admin_panel": "@dev"
+        "erfan_kateb_saber/admin_panel": "^1.0.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
