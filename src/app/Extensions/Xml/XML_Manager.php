@@ -35,7 +35,7 @@ class XML_Manager
         return $_xml->asXML();
     }
 
-    static public function xmlToArray($path , $specialReplace,$ignore_negativeFilter = false){
+    static public function xmlToArray($path , $specialReplace=[],$ignore_negativeFilter = false){
         $xmlstring = Storage::disk('private')->get($path);
         $xml = simplexml_load_string($xmlstring, "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);
