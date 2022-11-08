@@ -2,19 +2,16 @@
 
 namespace erfan_kateb_saber\admin_panel\app\Providers;
 
+use erfan_kateb_saber\admin_panel\app\Extensions\Xml\XML_Manager;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AdminUserProvider implements UserProvider
 {
-    const DATA_LOGIN = [
-        1=>[
-            'username' => 'admin',
-            'password' => 'admin'
-        ]
-    ];
+    private $data_Login;
     public function retrieveById($identifier)
     {
         // This method is called from subsequent calls until the session expires.
@@ -62,10 +59,18 @@ class AdminUserProvider implements UserProvider
 
     public function retrieveByCredentials(array $credentials)
     {
-//        dd("retrieveByCredentials");
-        foreach (self::DATA_LOGIN as $id => $property){
+        /*$data_login = [
+            1=>[
+                'username' => 'admin',
+                'password' => 'admin'
+            ]
+        ];*/
+
+        $this->data_Login = XML_Manager::xmlToArray('admin_panel/admin_users.xml',['numberRowId']);
+
+        foreach ($this->data_Login as $id => $property){
             if($credentials["username"] == $property["username"] &&
-                $credentials["password"]==$property["password"]){
+                Hash::check($credentials["password"], $property["password"])){
                 // GenericUser is a class from Laravel Auth System
                 return new GenericUser([
                     'id' => $id,
@@ -82,9 +87,9 @@ class AdminUserProvider implements UserProvider
     public function validateCredentials($user, array $credentials)
     {
 //        dd("validateCredentials");
-        foreach (self::DATA_LOGIN as $id => $property){
+        foreach ($this->data_Login as $id => $property){
             if($credentials["username"] == $property["username"] &&
-                $credentials["password"]==$property["password"]){
+                Hash::check($credentials["password"], $property["password"])){
                 return true;
             }
         }
