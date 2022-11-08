@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-
+        "laravel/laravel": "^9.38.0"
     },
     "extra": {
         "laravel": {
