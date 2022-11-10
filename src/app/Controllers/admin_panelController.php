@@ -288,7 +288,7 @@ class admin_panelController extends Controller
                                 'status' => $status
                             ];
                         }
-                        $title = 'Auto Prefix Routes';
+                        $title = 'Manual Prefix Routes';
                         $head = [
                             'prefix',
                             'count',
