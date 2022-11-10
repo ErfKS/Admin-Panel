@@ -47,7 +47,7 @@ class admin_panelController extends Controller
                 'text-color-class' => 'text-danger',
                 'onClick' => 'Scroll_manager.saveScroll();',
             ],
-            'Optimize Database' => [
+            'Optimize XML Database' => [
                 'type' => 'Button',
                 'href' => route('admin_panel.updateDatabase'),
                 'text-color-class' => 'text-warning',
@@ -87,7 +87,7 @@ class admin_panelController extends Controller
                 'route' => route('admin_panel.freshDatabase', 'part'),
                 'btn-color-class' => 'btn-danger'
             ],
-            'Optimize Database' => [
+            'Optimize XML Database' => [
                 'route' => route('admin_panel.updateDatabase'),
                 'btn-color-class' => 'btn-warning'
             ],
@@ -504,7 +504,7 @@ class admin_panelController extends Controller
                 'onClick' => 'Scroll_manager.saveScroll();goEditTotalRoute(\'' . $mode . '\');',
                 'text-color-class' => 'text-info',
             ],
-            'Optimize Database' => $this->navLinks()['Optimize Database'],
+            'Optimize XML Database' => $this->navLinks()['Optimize XML Database'],
             'Fresh Database' => $this->navLinks()['Fresh Database'],
         ];
 
@@ -620,7 +620,7 @@ class admin_panelController extends Controller
         return $data;
     }
 
-    //Optimize Database
+    //Optimize XML Database
     public function updateDatabase()
     {
         $xmlValue = $this->xmlToArray();
