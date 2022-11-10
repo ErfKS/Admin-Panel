@@ -262,10 +262,12 @@ class admin_panelController extends Controller
                                 'path' => [
                                     'required' => true,
                                     'type' => 'text',
+                                    'label' => 'path',
                                     'description' => 'eg: admin_panel/getList/manual-all',
                                     'name' => 'path'
                                 ],
                                 'status' => [
+                                    'label' => 'status',
                                     'type' => 'checkbox',
                                     'name' => 'status'
                                 ]
@@ -298,12 +300,14 @@ class admin_panelController extends Controller
                             'action' => route('admin_panel.addManualPrefixRoute'),
                             'inputs' => [
                                 'prefix' => [
+                                    'label' => 'prefix',
                                     'required' => true,
                                     'type' => 'text',
                                     'description' => 'eg: admin_panel/getList/manual-all',
                                     'name' => 'pref'
                                 ],
                                 'status' => [
+                                    'label' => 'status',
                                     'type' => 'checkbox',
                                     'name' => 'status'
                                 ]
