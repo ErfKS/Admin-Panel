@@ -49,7 +49,7 @@ class ChangeAdmin extends Command
                 'password' => Hash::make($password)
             ]
         ];
-        XML_Manager::arrayToXml($data, '/admin_panel/admin_users.xml', '<admin_users/>');
+        XML_Manager::arrayToXml($data, '/admin_panel/db_admin_users.xml', '<admin_users/>');
         $this->info('The change admin info was successful!');
         return Command::SUCCESS;
 

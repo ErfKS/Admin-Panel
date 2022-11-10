@@ -1,4 +1,4 @@
-<script src="{{asset('vendor/admin_panel//js/scroll/scroll_manager.js')}}"></script>
+<script src="{{asset('vendor/admin_panel/js/scroll_manager.js')}}"></script>
 @isset($errors)
     @if($errors->any() || isset($always_work))
         <script>

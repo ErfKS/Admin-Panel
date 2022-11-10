@@ -58,12 +58,12 @@ class admin_panelController extends Controller
 
     function arrayToXml($array, $rootElement = '<admin_panels/>', $xml = null)
     {
-        return XML_Manager::arrayToXml($array, '/admin_panel/admin_panel.xml', $rootElement, $xml);
+        return XML_Manager::arrayToXml($array, '/admin_panel/db_route_access.xml', $rootElement, $xml);
     }
 
     private function xmlToArray($ignore_negativeFilter = false)
     {
-        return XML_Manager::xmlToArray('admin_panel/admin_panel.xml', ['route', 'prefix'], $ignore_negativeFilter);
+        return XML_Manager::xmlToArray('admin_panel/db_route_access.xml', ['route', 'prefix'], $ignore_negativeFilter);
     }
 
     public function index(Request $request)
@@ -113,8 +113,8 @@ class admin_panelController extends Controller
                     $prefix_routes[$prefix] = [
                         'pref' => $prefix,
                         'count' => 1,
-                        'status' => isset($this->xmlToArray()['pref_admin_panels'][$prefix]) ?
-                            $this->xmlToArray()['pref_admin_panels'][$prefix] : "on"
+                        'status' => isset($this->xmlToArray()['pref_path_access'][$prefix]) ?
+                            $this->xmlToArray()['pref_path_access'][$prefix] : "on"
                     ];
                 }
 
@@ -135,7 +135,7 @@ class admin_panelController extends Controller
         $data = $this->xmlToArray();
 
         //set data array
-        $data['manual_pref_admin_panels'][$validate_data['pref']] = $validate_data['status'] ?? "off";
+        $data['manual_pref_path_access'][$validate_data['pref']] = $validate_data['status'] ?? "off";
 
         //store data
         $this->arrayToXml($data);
@@ -178,7 +178,7 @@ class admin_panelController extends Controller
 
         $data = $this->xmlToArray();
 
-        $data['manual_path_admin_panel'][$validate_data['path']] = $validate_data['status'] ?? "off";
+        $data['manual_path_access'][$validate_data['path']] = $validate_data['status'] ?? "off";
 
         //store data
         $this->arrayToXml($data);
@@ -198,8 +198,8 @@ class admin_panelController extends Controller
                 'pref' => $route->getPrefix(),
                 'method' => $route->methods()[0],
                 'controller' => isset($route->getAction()['controller']) ? $route->getAction()['controller'] : "",
-                'status' => isset($this->xmlToArray()['path_admin_panels'][$route->uri()]) ?
-                    $this->xmlToArray()['path_admin_panels'][$route->uri()] : "on"
+                'status' => isset($this->xmlToArray()['path_access'][$route->uri()]) ?
+                    $this->xmlToArray()['path_access'][$route->uri()] : "on"
 
             ];
         }
@@ -237,13 +237,13 @@ class admin_panelController extends Controller
                         ];
                         break;
                     case 'manual-all':
-                        $xml_manual_path = $this->xmlToArray()['manual_path_admin_panel'];
+                        $xml_manual_path = $this->xmlToArray()['manual_path_access'];
                         $table_list = array();
 
                         foreach ($xml_manual_path as $path => $status){
                             $table_list[$path] = [
                                 'path' => $path,
-                                'pref' => $this->getPrefixManualPath($path,$this->xmlToArray()['manual_pref_admin_panels']),
+                                'pref' => $this->getPrefixManualPath($path,$this->xmlToArray()['manual_pref_path_access']),
                                 'status' => $status
                             ];
                         }
@@ -277,8 +277,8 @@ class admin_panelController extends Controller
                         ];
                         break;
                     case 'manual-prefix':
-                        $xml_manual_pref=$this->xmlToArray()['manual_pref_admin_panels'];
-                        $xml_manual_path = $this->xmlToArray()['manual_path_admin_panel'];
+                        $xml_manual_pref=$this->xmlToArray()['manual_pref_path_access'];
+                        $xml_manual_path = $this->xmlToArray()['manual_path_access'];
                         foreach ($xml_manual_pref as $pref =>$status){
                             $table_list[$pref] = [
                                 'pref' => $pref,
@@ -315,7 +315,7 @@ class admin_panelController extends Controller
                         ];
                         break;
                     default:
-                        $table_list = $this->xmlToArray()['path_admin_panels'];
+                        $table_list = $this->xmlToArray()['path_access'];
                         $title = "Not found<hr>Auto Routes";
                         $head = [
                             'Route',
@@ -481,7 +481,7 @@ class admin_panelController extends Controller
                     $table_list = DB::table($tableName)->get()->all();
                     $title = "table: $tableName";
                 } else {
-                    return view('errors.404');
+                    return abort(404);
                 }
                 break;
         }
@@ -543,7 +543,7 @@ class admin_panelController extends Controller
         foreach ($post_data['data'] as $oneData) {
             if ($oneData['status'] === "off") {
                 $optimizedData[getMainPath($post_data,$oneData)] = $oneData['status'];
-            } else if($database_part !== 'manual_path_admin_panel' && $database_part !== 'manual_pref_admin_panels') {
+            } else if($database_part !== 'manual_path_access' && $database_part !== 'manual_pref_path_access') {
                 unset($old_data[getMainPath($post_data,$oneData)]);
             } else {
                 $optimizedData[getMainPath($post_data,$oneData)] = $oneData['status'];
@@ -573,10 +573,10 @@ class admin_panelController extends Controller
 
         switch ($request->get('mode')) {
             case 'all':
-                $data["path_admin_panels"][$address]['status'] = $request->get('status') == "on" ? "on" : "off";
+                $data["path_access"][$address]['status'] = $request->get('status') == "on" ? "on" : "off";
                 break;
             case 'prefix':
-                $data["pref_admin_panels"][$address]['status'] = $request->get('status') == "on" ? "on" : "off";
+                $data["pref_path_access"][$address]['status'] = $request->get('status') == "on" ? "on" : "off";
                 break;
         }
         $this->arrayToXml($data);
@@ -604,14 +604,14 @@ class admin_panelController extends Controller
     private function freshDatabase_getArray($isXmlFilter = false, $keepManualData = true)
     {
         if ($keepManualData) {
-            $manual_path_admin_panel = $this->xmlToArray()['manual_path_admin_panel']??null;
-            $manual_pref_admin_panels = $this->xmlToArray()['manual_pref_admin_panels']??null;
+            $manual_path_access = $this->xmlToArray()['manual_path_access']??null;
+            $manual_pref_path_access = $this->xmlToArray()['manual_pref_path_access']??null;
         }
         $data = [
-            'path_admin_panels' => array(),
-            'manual_path_admin_panel' => $manual_path_admin_panel,
-            'pref_admin_panels' => array(),
-            'manual_pref_admin_panels' => $manual_pref_admin_panels
+            'path_access' => array(),
+            'manual_path_access' => $manual_path_access,
+            'pref_path_access' => array(),
+            'manual_pref_path_access' => $manual_pref_path_access
         ];
         return $data;
     }
@@ -632,8 +632,8 @@ class admin_panelController extends Controller
             }
         }
 
-        optimizeXmlPart('path_admin_panels', $xmlValue, $routes);
-        optimizeXmlPart('path_admin_panels', $xmlValue, $prefix);
+        optimizeXmlPart('path_access', $xmlValue, $routes);
+        optimizeXmlPart('path_access', $xmlValue, $prefix);
 
         return back()->with('modal', [
             'title' => 'result',
@@ -644,15 +644,15 @@ class admin_panelController extends Controller
 
     function updateManualValues($new)
     {
-        $routes = $new['manual_path_admin_panel'];
-        $prefixes = $new['manual_pref_admin_panels'];
+        $routes = $new['manual_path_access'];
+        $prefixes = $new['manual_pref_path_access'];
         foreach ($prefixes as $prefixName => $prefix) {
             $prefixCount = 0;
             foreach ($routes as $routeName => $route) {
                 if ($this->isPrefixRoute($route['path'], $prefix['pref'])) {
-                    $new['manual_path_admin_panel'][$routeName]['pref'] = $prefix['pref'];
+                    $new['manual_path_access'][$routeName]['pref'] = $prefix['pref'];
                     $prefixCount++;
-                    $new['manual_pref_admin_panels'][$prefixName]['count'] = $prefixCount;
+                    $new['manual_pref_path_access'][$prefixName]['count'] = $prefixCount;
                 }
             }
         }
@@ -708,13 +708,13 @@ class admin_panelController extends Controller
     {
         switch ($mode) {
             case "prefix":
-                return 'pref_admin_panels';
+                return 'pref_path_access';
             case "all":
-                return 'path_admin_panels';
+                return 'path_access';
             case "manual-all":
-                return 'manual_path_admin_panel';
+                return 'manual_path_access';
             case "manual-prefix":
-                return 'manual_pref_admin_panels';
+                return 'manual_pref_path_access';
         }
         return 'null';
     }

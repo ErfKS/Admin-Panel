@@ -2,7 +2,10 @@
 namespace erfan_kateb_saber\admin_panel\app\Providers;
 
 use erfan_kateb_saber\admin_panel\app\Console\Commands\ChangeAdmin;
+use erfan_kateb_saber\admin_panel\app\Controllers\admin_panelController;
 use erfan_kateb_saber\admin_panel\app\Extensions\Xml\XML_Manager;
+use erfan_kateb_saber\admin_panel\app\Middleware\EnsureHaveAccessRoute;
+
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -12,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AdminPanelAuthProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(\Illuminate\Routing\Router $router ,\Illuminate\Contracts\Http\Kernel $kernel)
     {
 
         Config::set('auth.guards.admin_panel', [
@@ -46,6 +49,9 @@ class AdminPanelAuthProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/view/layout','layout');
         $this->loadViewsFrom(__DIR__.'/../../resources/view/components','component');
 
+//        $this->app['router']->aliasMiddleware('web',EnsureHaveAccessRoute::class);
+        $kernel->pushMiddleware(EnsureHaveAccessRoute::class);
+
         Blade::component('component::form.checkbox', 'form-checkbox');
         Blade::component('component::form.button', 'form-button');
         Blade::component('component::form.dropdown', 'form-dropdown');
@@ -59,17 +65,17 @@ class AdminPanelAuthProvider extends ServiceProvider
         ], 'laravel-assets');
 
 
-        if(XML_Manager::xmlToArray('admin_panel/admin_users.xml', ['numberRowId']) !== null) {
+        if(XML_Manager::xmlToArray('admin_panel/db_admin_users.xml', ['numberRowId']) !== null) {
             $data = [
                 "numberRowId1" => [
                     'username' => 'admin',
                     'password' => Hash::make('admin')
                 ]
             ];
-            XML_Manager::arrayToXml($data, '/admin_panel/admin_users.xml', '<admin_users/>');
+            XML_Manager::arrayToXml($data, '/admin_panel/db_admin_users.xml', '<admin_users/>');
         }
 
-        $admins = XML_Manager::xmlToArray('admin_panel/admin_users.xml',['numberRowId'])[1];
+        $admins = XML_Manager::xmlToArray('admin_panel/db_admin_users.xml',['numberRowId'])[1];
         AboutCommand::add('Admin Panel', fn () => [
             'Version' => '1.0.0',
             'Username' => $admins['username'],
