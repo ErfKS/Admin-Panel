@@ -6,8 +6,8 @@
         @switch($properties['type'])
             @case('checkbox')
                 <x-form-checkbox :type="$properties['type']" :name="$properties['name']"
-                                 :required="isset($properties['required'])??null" :label="$properties['label']"
-                                 :description="isset($properties['description'])??null"/>
+                                 :required="$properties['required']??null" :label="$properties['label']"
+                                 :description="i$properties['description']??null"/>
                 @break
             @case('row')
 
@@ -26,18 +26,18 @@
                 @break
             @case('text')
                 <x-form-text :type="$properties['type']" :name="$properties['name']"
-                             :required="isset($properties['required'])??null" :label="$properties['label']"
-                             :description="isset($properties['description'])??null"/>
+                             :required="$properties['required']??null" :label="$properties['label']"
+                             :description="$properties['description']??null"/>
                 @break
             @case('password')
                 <x-form-text :type="$properties['type']" :name="$properties['name']"
-                             :required="isset($properties['required'])??null" :label="$properties['label']"
-                             :description="isset($properties['description'])??null"/>
+                             :required="$properties['required']??null" :label="$properties['label']"
+                             :description="$properties['description']??null"/>
                 @break
             @case('dropdown')
                 <x-form-dropdown :type="$properties['type']" :name="$properties['name']"
-                                 :required="isset($properties['required'])??null" :label="$properties['label']"
-                                 :description="isset($properties['description'])??null" :options="$properties['options']"/>
+                                 :required="$properties['required']??null" :label="$properties['label']"
+                                 :description="$properties['description']??null" :options="$properties['options']"/>
                 @break
             @case('hr')
                 <hr>
@@ -47,13 +47,13 @@
                 @break;
             @case('button')
                 <x-form-button :type="$properties['type']" :name="$properties['name']"
-                               :label="$properties['text']" :description="isset($properties['description'])??null"
+                               :label="$properties['text']" :description="$properties['description']??null"
                                :text="$properties['text']" :color="$properties['color']" :onclick="$properties['onClick']??''"/>
                 @break
             @case('number')
                 <x-form-text :type="$properties['type']" :name="$properties['name']"
-                             :required="isset($properties['required'])??null" :label="$properties['label']"
-                             :description="isset($properties['description'])??null"/>
+                             :required="$properties['required']??null" :label="$properties['label']"
+                             :description="$properties['description']??null"/>
                 @break
             @case('listBox')
                 @php
